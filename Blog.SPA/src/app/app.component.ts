@@ -8,14 +8,19 @@ import { Blog } from './models/blog';
 })
 export class AppComponent {
   title: string = 'Blog.SPA';
-  blog: Blog = {
-    Title: '',
-    Content: ''
+  blogs: Blog[] = [];
+  newBlog: Blog = {
+    title: '',
+    content: ''
   }
 
   constructor(private blogService: BlogService) { }
 
+  ngOnInit() {
+    this.blogService.getBlogPosts().subscribe((blogs: Blog[]) => { this.blogs = blogs; });
+  }
+
   public Submit() {
-    this.blogService.addBlogPost(this.blog)
+    this.blogService.getBlogPosts().subscribe((blogs: Blog[]) => { this.blogs = blogs; });
   }
 }

@@ -1,5 +1,5 @@
-export interface Blog
+export class Blog
 {
-    Title: string;
-    Content: string;
+    title: string = "";
+    content: string = "";
 }

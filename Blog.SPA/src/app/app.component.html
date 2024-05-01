@@ -8,4 +8,10 @@
     <textarea matInput></textarea>
   </mat-form-field>
   <button mat-flat-button color="primary" (click)="Submit()">Send</button>
+<ul>
+  <li *ngFor="let blog of blogs">
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.content}}</p>
+  </li>
+</ul>
 </main>

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 namespace BlogApplication.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
 
     public class BlogController : ControllerBase
     {
@@ -15,6 +15,18 @@ namespace BlogApplication.Controllers
         public BlogController(IOptions<FirebaseConfig> fireBaseConfig)
         {
             _fireBaseConfig = fireBaseConfig.Value;
+        }
+
+        [HttpGet(Name = "GetBlogPosts")]
+        public async Task<IActionResult> Get()
+        {
+            var firebaseClient = new FirebaseClient(_fireBaseConfig.DatabaseUrl);
+            var blogPosts = await firebaseClient.Child("BlogPosts").OnceAsync<BlogPostEntity>();
+            return Ok(blogPosts.Select(bp => new BlogPost
+            {
+                Title = bp.Object.Title,
+                Content = bp.Object.Content
+            }));
         }
 
         [HttpPost(Name = "SaveBlogPost")]
