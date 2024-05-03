@@ -35,8 +35,8 @@ namespace BlogApplication.Controllers
             var firebaseClient = new FirebaseClient(_fireBaseConfig.DatabaseUrl);
             var blogPost = new BlogPostEntity
             {
-                Title = "Blog Post Title",
-                Content = "Blog Post Content"
+                Title = post.Title,
+                Content = post.Content
             };
 
             await firebaseClient.Child("BlogPosts").PostAsync(blogPost);

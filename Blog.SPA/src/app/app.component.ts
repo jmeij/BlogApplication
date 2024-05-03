@@ -21,6 +21,13 @@ export class AppComponent {
   }
 
   public Submit() {
+    this.blogService.addBlogPost(this.newBlog).subscribe(() => {
+      this.blogs.push(this.newBlog);
+      this.newBlog = {
+        title: '',
+        content: ''
+      }
+    });
     this.blogService.getBlogPosts().subscribe((blogs: Blog[]) => { this.blogs = blogs; });
   }
 }

@@ -3,7 +3,6 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Blog } from './models/blog';
 import { environment } from '../environments/environment.development';
-import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +14,12 @@ export class BlogService {
   constructor(private http: HttpClient) { }
 
   public getBlogPosts(): Observable<any[]> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.url}`).pipe(catchError((error: HttpErrorResponse) =>this.handleError(error)));
+    return this.http.get<any>(`${environment.apiUrl}/${this.url}`).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
-  // public addBlogPost(blog: Blog): Observable<Blog> {
-  //   return this.http.post<Blog>(`${environment.apiUrl}/${this.url}`, blog, httpOptions)
-  //     .pipe(
-  //       catchError((error: HttpErrorResponse) =>this.handleError(error))
-  //     );
-  // }
+  public addBlogPost(blog: Blog): Observable<Blog> {
+    return this.http.post<Blog>(`${environment.apiUrl}/${this.url}`, blog).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
