@@ -1,0 +1,11 @@
+<form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="Submit(formDirective)" class="form">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <textarea matInput formControlName="content" required></textarea>
+  </mat-form-field>
+  <button mat-flat-button color="primary">Send</button>
+</form>
