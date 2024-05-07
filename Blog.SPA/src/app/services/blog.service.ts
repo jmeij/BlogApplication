@@ -13,8 +13,8 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  public getBlogPosts(): Observable<any[]> {
-    return this.http.get<any>(`${environment.apiUrl}/${this.url}`).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
+  public getBlogPosts(): Observable<Blog[]> {
+    return this.http.get<Blog[]>(`${environment.apiUrl}/${this.url}`).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
   public addBlogPost(blog: Blog): Observable<Blog> {

@@ -1,0 +1,8 @@
+services: # Services to deploy
+  dockerapp:
+    image: blogapplication:dev #image name, Default:- Folder Name
+    build:
+        dockerfile: /Dockerfile # Dockerfile path
+    ports:
+    - "32768:8080" # Port Mapping
+    - "32769:8081" # Port Mapping"
