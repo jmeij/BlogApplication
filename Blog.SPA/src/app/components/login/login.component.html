@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="Submit()" class="form">
+  <mat-form-field>
+    <mat-label>E-mail</mat-label>
+    <input matInput formControlName="email" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <textarea matInput formControlName="password" required></textarea>
+  </mat-form-field>
+  <button mat-flat-button color="primary">Login</button>
+</form>

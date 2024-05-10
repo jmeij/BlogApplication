@@ -1,4 +1,4 @@
-﻿using BlogApplication.Interfaces;
+﻿using BlogApplication.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
 using Microsoft.AspNetCore.Mvc;

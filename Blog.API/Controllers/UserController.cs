@@ -1,15 +1,28 @@
 ﻿using BlogApplication.Interfaces;
-using Firebase.Auth.Providers;
-using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApplication.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
-        [HttpPost(Name = "SignUp")]
-        public async Task<IActionResult> Post()
+        private readonly IFirebaseAuthService _authService;
+
+        public UserController(IFirebaseAuthService authService)
         {
+            _authService = authService;
+        }
+
+        /// <summary>
+        /// Login a user.
+        /// </summary>
+        /// <param name="user">The user credentials.</param>
+        /// <returns>A response indicating success or failure.</returns>
+        [HttpPost("Login", Name = "Login")]
+        public async Task<IActionResult> Login(User user)
+        {
+            await _authService.Login(user.Email, user.Password);
             return Ok();
         }
     }

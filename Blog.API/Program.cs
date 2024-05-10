@@ -1,4 +1,6 @@
 using BlogApplication.Interfaces;
+using BlogApplication.Models;
+using Firebase.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddCors(options => options.AddPolicy(name: "LocalOrigins",
         }
 ));
 builder.Services.Configure<FirebaseConfig>(builder.Configuration.GetSection("Firebase"));
+//builder.Services.AddScoped<IFirebaseAuthService, FirebaseAuthService>();
+//builder.Services.AddSingleton<FirebaseAuthClient>();
 
 var app = builder.Build();
 

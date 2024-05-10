@@ -1,6 +1,6 @@
-﻿namespace BlogApplication.Interfaces
+﻿namespace BlogApplication.Models
 {
-    public class BlogPost
+    public class BlogPostEntity
     {
         public required string Title { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace BlogApplication.Interfaces
+﻿namespace BlogApplication.Models
 {
     public class FirebaseConfig
     {

@@ -1,5 +1,5 @@
 services: # Services to deploy
-  dockerapp:
+  API:
     image: blogapplication:dev #image name, Default:- Folder Name
     build:
         dockerfile: /Dockerfile # Dockerfile path

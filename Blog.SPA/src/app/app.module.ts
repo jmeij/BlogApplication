@@ -13,12 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AdminComponent } from './components/admin/admin.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
-    OverviewComponent
+    OverviewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
