@@ -7,11 +7,11 @@ namespace BlogApplication.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly IFirebaseAuthService _authService;
+        private readonly IFirebaseAuthService fireBaseAuthService;
 
-        public UserController(IFirebaseAuthService authService)
+        public UserController(IFirebaseAuthService fireBaseAuthService)
         {
-            _authService = authService;
+            this.fireBaseAuthService = fireBaseAuthService;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace BlogApplication.Controllers
         [HttpPost("Login", Name = "Login")]
         public async Task<IActionResult> Login(User user)
         {
-            await _authService.Login(user.Email, user.Password);
+            await fireBaseAuthService.Login(user.Email, user.Password);
             return Ok();
         }
     }

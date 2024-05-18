@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public login(user: User): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/${this.url}`, user).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
+    return this.http.post<User>(`${environment.apiUrl}/${this.url}/Login`, user).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
   private handleError(error: HttpErrorResponse) {

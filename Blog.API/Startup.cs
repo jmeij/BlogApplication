@@ -11,7 +11,6 @@ public class Startup(IConfiguration configuration)
         Console.WriteLine("Configuring services...");
         services.Configure<FirebaseConfig>(Configuration.GetSection("Firebase"));
         services.AddScoped<IFirebaseAuthService, FirebaseAuthService>();
-        services.AddSingleton<FirebaseAuthClient>();
     }
 
     public void Configure(IApplicationBuilder app)
