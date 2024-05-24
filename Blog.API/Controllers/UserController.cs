@@ -20,10 +20,10 @@ namespace BlogApplication.Controllers
         /// <param name="user">The user credentials.</param>
         /// <returns>A response indicating success or failure.</returns>
         [HttpPost("Login", Name = "Login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<string?> Login(User user)
         {
-            await fireBaseAuthService.Login(user.Email, user.Password);
-            return Ok();
+            var response = await fireBaseAuthService.Login(user.Email, user.Password);
+            return response;
         }
     }
 }
