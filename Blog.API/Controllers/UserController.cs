@@ -22,8 +22,8 @@ namespace BlogApplication.Controllers
         [HttpPost("Login", Name = "Login")]
         public async Task<string?> Login(User user)
         {
-            var response = await fireBaseAuthService.Login(user.Email, user.Password);
-            return response;
+            var authentication = await fireBaseAuthService.Login(user.Email, user.Password);
+            return authentication;
         }
     }
 }

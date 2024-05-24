@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AdminComponent } from './components/admin/admin.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { LoginComponent } from './components/login/login.component';
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    UserService
   ],
   bootstrap: [AppComponent]
 })
