@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
+import { TokenValidationRequest } from '../models/tokenvalidationrequest';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { environment } from '../../environments/environment.development';
 export class UserService {
   private url = "User";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   public login(user: User): Observable<string> {
     return this.http.post<string>(`${environment.apiUrl}/${this.url}/Login`, user, { responseType: 'text' as 'json' }).pipe(
@@ -24,6 +26,7 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem('authToken');
+    this.router.navigate(['/overview']);
   }
 
   private handleLoginSuccess(response: string) {
@@ -46,12 +49,9 @@ export class UserService {
   }
 
   public isLoggedIn(): Observable<boolean> {
-    const token = this.getAuthToken();
-    if (token) {
-      console.log('Token found:', `${environment.apiUrl}/${this.url}/validate-token`);
-      var a = this.http.post<{ valid: boolean }>(`${environment.apiUrl}/${this.url}/validate-token`, {});
-      console.log(a);
-      return of(true);
+    const request: TokenValidationRequest = { token: this.getAuthToken() ?? '' };
+    if (request) {
+      return this.http.post<boolean>(`${environment.apiUrl}/${this.url}/validate-token`, request);
     } else {
       return of(false);
     }
@@ -61,7 +61,6 @@ export class UserService {
     if (typeof localStorage !== 'undefined') {
       return localStorage.getItem('authToken');
     } else {
-      console.log('Web Storage is not supported in this environment.');
       return null;
     }
   }

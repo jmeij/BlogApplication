@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Blog } from '../../models/blog';
 import { BlogService } from '../../services/blog.service';
+import { UserService } from '../../services/user.service';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
@@ -15,7 +16,10 @@ export class AdminComponent {
     content: new FormControl(''),
   });
 
-  constructor(private blogService: BlogService) { }
+  constructor(
+    private blogService: BlogService,
+    private UserService: UserService
+  ) { }
 
   public Submit(formDirective: FormGroupDirective) {
     if (this.form.invalid) {
@@ -30,5 +34,16 @@ export class AdminComponent {
       this.form.reset();
       formDirective.resetForm();
     });
+  }
+
+  public validateToken(): void {
+    console.log('Validating token...');
+    this.UserService.isLoggedIn().subscribe((response) => {
+      console.log(response);
+    });
+  }
+
+  public logout(): void {
+    this.UserService.logout();
   }
 }

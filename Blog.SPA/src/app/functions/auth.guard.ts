@@ -1,11 +1,24 @@
 import { inject } from "@angular/core";
 import { UserService } from "../services/user.service";
-import { Router } from "@angular/router";
+import { CanActivateFn, Router } from "@angular/router";
+import { catchError, map, of } from "rxjs";
 
-export const AuthGuard = () => {
+export const AuthGuard: CanActivateFn = () => {
   const userService = inject(UserService);
   const router = inject(Router);
 
-var isLoggedIn = userService.isLoggedIn();
-console.log(isLoggedIn);
+  return userService.isLoggedIn().pipe(
+    map((isLoggedIn: boolean) => {
+      if (isLoggedIn) {
+        return true;
+      } else {
+        router.navigate(['/login']);
+        return false;
+      }
+    }),
+    catchError(() => {
+      router.navigate(['/login']);
+      return of(false);
+    })
+  );
 };
