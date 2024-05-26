@@ -6,9 +6,6 @@ export const AuthGuard = () => {
   const userService = inject(UserService);
   const router = inject(Router);
 
-  if (userService.isLoggedIn()) {
-    return true;
-  } else {
-    return router.createUrlTree(['/login']);
-  }
+var isLoggedIn = userService.isLoggedIn();
+console.log(isLoggedIn);
 };

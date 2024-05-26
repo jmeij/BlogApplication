@@ -1,4 +1,5 @@
 ﻿using BlogApplication.Interfaces;
+using BlogApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApplication.Controllers
@@ -18,12 +19,28 @@ namespace BlogApplication.Controllers
         /// Login a user.
         /// </summary>
         /// <param name="user">The user credentials.</param>
-        /// <returns>A response indicating success or failure.</returns>
-        [HttpPost("Login", Name = "Login")]
+        /// <returns>A response that returns a token.</returns>
+        [HttpPost("login", Name = "Login")]
         public async Task<string?> Login(User user)
         {
             var authentication = await fireBaseAuthService.Login(user.Email, user.Password);
             return authentication;
+        }
+
+        /// <summary>
+        /// Validates a user.
+        /// </summary>
+        /// <param name="request">The user token.</param>
+        /// <returns>A response indicating success or failure.</returns>
+        [HttpPost("validate-token", Name = "Validate token")]
+        public async Task<IActionResult> ValidateToken(TokenValidationRequest request)
+        {
+            var isValid = await fireBaseAuthService.ValidateToken(request.Token);
+            if (!isValid)
+            {
+                return Unauthorized();
+            }
+            return Ok(new { valid = true });
         }
     }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -45,17 +45,24 @@ export class UserService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
-  public isLoggedIn(): boolean {
-    if (typeof localStorage !== 'undefined') {
-      const isLoggedIn = !!localStorage.getItem("authToken");
-      return isLoggedIn;
-    }
-    else {
-      return false;
+  public isLoggedIn(): Observable<boolean> {
+    const token = this.getAuthToken();
+    if (token) {
+      console.log('Token found:', `${environment.apiUrl}/${this.url}/validate-token`);
+      var a = this.http.post<{ valid: boolean }>(`${environment.apiUrl}/${this.url}/validate-token`, {});
+      console.log(a);
+      return of(true);
+    } else {
+      return of(false);
     }
   }
 
   public getAuthToken(): string | null {
-    return localStorage.getItem('authToken');
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem('authToken');
+    } else {
+      console.log('Web Storage is not supported in this environment.');
+      return null;
+    }
   }
 }
