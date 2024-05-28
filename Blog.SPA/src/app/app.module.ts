@@ -19,15 +19,15 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
 import { TopbarComponent } from './components/shared/topbar/topbar.component';
-
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
-    declarations: [
-      AppComponent,
+    declarations: [AppComponent,
       AdminComponent,
       OverviewComponent,
       LoginComponent,
-      TopbarComponent
+      TopbarComponent,
+      SignupComponent
     ],
     bootstrap: [AppComponent],
     imports: [BrowserModule,

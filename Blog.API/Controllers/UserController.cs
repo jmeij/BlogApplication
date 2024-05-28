@@ -28,6 +28,18 @@ namespace BlogApplication.Controllers
         }
 
         /// <summary>
+        /// SignUp a user.
+        /// </summary>
+        /// <param name="user">The user credentials.</param>
+        /// <returns>A response that returns a token.</returns>
+        [HttpPost("sign-up", Name = "SignUp")]
+        public async Task<string?> SignUp(SignUpUser user)
+        {
+            var authentication = await fireBaseAuthService.SignUp(user.Email, user.Password);
+            return authentication;
+        }
+
+        /// <summary>
         /// Validates a user.
         /// </summary>
         /// <param name="request">The user token.</param>

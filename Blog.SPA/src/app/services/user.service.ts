@@ -5,6 +5,7 @@ import { TokenValidationRequest } from '../models/tokenvalidationrequest';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
+import { SignUpUser } from '../models/signupuser';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,16 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) { }
 
   public login(user: User): Observable<string> {
+    return this.http.post<string>(`${environment.apiUrl}/${this.url}/Login`, user, { responseType: 'text' as 'json' }).pipe(
+      map(response => {
+        this.handleLoginSuccess(response);
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  public signUp(user: SignUpUser): Observable<string> {
     return this.http.post<string>(`${environment.apiUrl}/${this.url}/Login`, user, { responseType: 'text' as 'json' }).pipe(
       map(response => {
         this.handleLoginSuccess(response);

@@ -1,19 +1,25 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import { SignUpUser } from '../../models/signupuser';
+import { CustomValidators } from '../../functions/customValidator';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.scss'
 })
-export class LoginComponent {
+export class SignupComponent {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  });
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+  },
+  {
+    validators: CustomValidators.MatchingPasswords
+  }
+);
   hide = true;
 
   constructor(private userService: UserService, private router: Router) { }
@@ -22,11 +28,12 @@ export class LoginComponent {
     if (this.form.invalid) {
       return;
     }
-    const user: User = {
+    const user: SignUpUser = {
       email: this.form?.get('email')?.value ?? '',
       password: this.form?.get('password')?.value ?? '',
+      confirmPassword: this.form?.get('confirmPassword')?.value ?? '',
     };
-    this.userService.login(user).subscribe(() => {
+    this.userService.signUp(user).subscribe(() => {
       this.router.navigate(['/admin']);
     });
   }
