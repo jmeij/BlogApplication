@@ -10,6 +10,8 @@ import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+  blogs: Blog[] = [];
+  displayedColumns: string[] = ['id', 'title', 'content', 'actions'];
   title: string = 'Blog.SPA';
   form = new FormGroup({
     title: new FormControl('', Validators.minLength(2)),
@@ -21,12 +23,17 @@ export class AdminComponent {
     private UserService: UserService
   ) { }
 
+  ngOnInit() {
+    this.blogService.getBlogPosts().subscribe((blogs: Blog[]) => { this.blogs = blogs; });
+  }
+
   public Submit(formDirective: FormGroupDirective) {
     if (this.form.invalid) {
       return;
     }
 
     const newBlog: Blog = {
+      id: '',
       title: this.form?.get('title')?.value ?? '',
       content: this.form?.get('content')?.value ?? '',
     };
@@ -34,6 +41,17 @@ export class AdminComponent {
       this.form.reset();
       formDirective.resetForm();
     });
+  }
+
+  public deleteBlog(blog: Blog): void {
+    this.blogService.deleteBlogPost(blog.id).subscribe(() => {
+      console.log('Deleting blog post:', blog);
+      this.blogs.splice(this.blogs.indexOf(blog), 1);
+    });
+  }
+
+  public editBlog(blog: Blog): void {
+    console.log('Editing blog post:', blog);
   }
 
   public validateToken(): void {

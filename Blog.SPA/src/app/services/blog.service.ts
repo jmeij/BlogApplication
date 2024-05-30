@@ -21,6 +21,12 @@ export class BlogService {
     return this.http.post<Blog>(`${environment.apiUrl}/${this.url}`, blog).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
+  public deleteBlogPost(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/${this.url}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('An error occurred:', error.error);

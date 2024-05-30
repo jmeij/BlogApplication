@@ -24,9 +24,30 @@ namespace BlogApplication.Controllers
             var blogPosts = await firebaseClient.Child("BlogPosts").OnceAsync<BlogPostEntity>();
             return Ok(blogPosts.Select(bp => new BlogPost
             {
+                Id = bp.Key,
                 Title = bp.Object.Title,
                 Content = bp.Object.Content
             }));
+        }
+
+        [HttpDelete("{id}", Name = "DeleteBlogPost")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest(new { message = "Blog post ID is required." });
+            }
+            var firebaseClient = new FirebaseClient(_fireBaseConfig.DatabaseUrl);
+
+            try
+            {
+                await firebaseClient.Child("BlogPosts").Child(id).DeleteAsync();
+                return Ok(new { message = "Blog post deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"Error deleting blog post: {ex.Message}" });
+            }
         }
 
         [HttpPost(Name = "SaveBlogPost")]
