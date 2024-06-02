@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Blog } from '../../models/blog';
 import { BlogService } from '../../services/blog.service';
 import { UserService } from '../../services/user.service';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AddblogpostComponent } from './addblogpost/addblogpost.component';
 
 @Component({
   selector: 'app-admin',
@@ -13,34 +14,15 @@ export class AdminComponent {
   blogs: Blog[] = [];
   displayedColumns: string[] = ['id', 'title', 'content', 'actions'];
   title: string = 'Blog.SPA';
-  form = new FormGroup({
-    title: new FormControl('', Validators.minLength(2)),
-    content: new FormControl(''),
-  });
 
   constructor(
     private blogService: BlogService,
+    private dialog: MatDialog,
     private UserService: UserService
   ) { }
 
   ngOnInit() {
     this.blogService.getBlogPosts().subscribe((blogs: Blog[]) => { this.blogs = blogs; });
-  }
-
-  public Submit(formDirective: FormGroupDirective) {
-    if (this.form.invalid) {
-      return;
-    }
-
-    const newBlog: Blog = {
-      id: '',
-      title: this.form?.get('title')?.value ?? '',
-      content: this.form?.get('content')?.value ?? '',
-    };
-    this.blogService.addBlogPost(newBlog).subscribe(() => {
-      this.form.reset();
-      formDirective.resetForm();
-    });
   }
 
   public deleteBlog(blog: Blog): void {
@@ -52,6 +34,10 @@ export class AdminComponent {
 
   public editBlog(blog: Blog): void {
     console.log('Editing blog post:', blog);
+  }
+
+  public openDialog(): void {
+    this.dialog.open(AddblogpostComponent);
   }
 
   public validateToken(): void {
