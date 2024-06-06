@@ -47,12 +47,12 @@ namespace BlogApplication.Controllers
         [HttpPost("validate-token", Name = "Validate token")]
         public async Task<IActionResult> ValidateToken(TokenValidationRequest request)
         {
-            var isValid = await fireBaseAuthService.ValidateToken(request.Token);
-            if (!isValid)
+            var token = await fireBaseAuthService.ValidateToken(request.Token);
+            if (token == null)
             {
                 return Unauthorized();
             }
-            return Ok(new { valid = true });
+            return Ok(token);
         }
     }
 }

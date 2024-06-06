@@ -1,6 +1,7 @@
 ﻿using BlogApplication.Interfaces;
 using Firebase.Auth;
 using FirebaseAdmin.Auth;
+using System.IdentityModel.Tokens.Jwt;
 
 public class FirebaseAuthService : IFirebaseAuthService
 {
@@ -19,16 +20,18 @@ public class FirebaseAuthService : IFirebaseAuthService
         var userCredentials = await this.firebaseAuth.SignInWithEmailAndPasswordAsync(email, password);
         return userCredentials is null ? null : await userCredentials.User.GetIdTokenAsync();
     }
-    public async Task<bool> ValidateToken(string token)
+
+    public async Task<FirebaseToken?> ValidateToken(string token)
     {
         try
         {
             FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
-            return decodedToken != null;
+
+            return decodedToken;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

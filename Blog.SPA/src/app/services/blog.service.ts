@@ -21,6 +21,10 @@ export class BlogService {
     return this.http.post<Blog>(`${environment.apiUrl}/${this.url}`, blog).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
   }
 
+  public updateBlogPost(blog: Blog): Observable<Blog> {
+    return this.http.put<Blog>(`${environment.apiUrl}/${this.url}`, blog).pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));
+  }
+
   public deleteBlogPost(id: string): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/${this.url}/${id}`).pipe(
       catchError((error: HttpErrorResponse) => this.handleError(error))

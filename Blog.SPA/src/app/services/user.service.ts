@@ -6,12 +6,16 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
 import { SignUpUser } from '../models/signupuser';
+import { FireBaseToken } from '../models/firebasetoken';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private url = "User";
+  public user = {
+    email: ''
+  }
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -37,6 +41,7 @@ export class UserService {
 
   public logout(): void {
     localStorage.removeItem('authToken');
+    this.user.email = '';
     this.router.navigate(['/overview']);
   }
 
@@ -62,7 +67,12 @@ export class UserService {
   public isLoggedIn(): Observable<boolean> {
     const request: TokenValidationRequest = { token: this.getAuthToken() ?? '' };
     if (request) {
-      return this.http.post<boolean>(`${environment.apiUrl}/${this.url}/validate-token`, request);
+      return this.http.post<FireBaseToken>(`${environment.apiUrl}/${this.url}/validate-token`, request).pipe(
+        map(response => {
+          this.user.email = response.claims['email'].toString();
+          return true;
+        })
+      );
     } else {
       return of(false);
     }

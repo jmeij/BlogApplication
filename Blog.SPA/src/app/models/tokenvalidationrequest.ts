@@ -1,4 +1,4 @@
-export class TokenValidationRequest
+export type TokenValidationRequest =
 {
-    token: string = "";
+    token: string;
 }

@@ -3,5 +3,7 @@
   <span class="example-spacer"></span>
   <mat-divider [vertical]="true"></mat-divider>
   <a mat-button routerLink="/overview" aria-label="Home">Home</a>
-  <a mat-button routerLink="/login" aria-label="Login">Login</a>
+  <a *ngIf="!currentUserName" mat-button routerLink="/login" aria-label="Login">Login</a>
+  <a *ngIf="currentUserName" mat-button>{{ currentUserName }}</a>
+  <a *ngIf="currentUserName" mat-button (click)="logout()" aria-label="Logout">Logout</a>
 </mat-toolbar>

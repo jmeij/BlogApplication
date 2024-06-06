@@ -63,5 +63,20 @@ namespace BlogApplication.Controllers
             await firebaseClient.Child("BlogPosts").PostAsync(blogPost);
             return Ok();
         }
+
+        [HttpPut(Name = "UpdateBlogPost")]
+        public async Task<IActionResult> Put(BlogPost post)
+        {
+            var firebaseClient = new FirebaseClient(_fireBaseConfig.DatabaseUrl);
+            var blogPost = new BlogPostEntity
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content
+            };
+
+            await firebaseClient.Child("BlogPosts").Child(post.Id).PutAsync(blogPost);
+            return Ok();
+        }
     }
 }

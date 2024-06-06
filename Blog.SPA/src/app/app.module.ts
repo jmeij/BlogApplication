@@ -17,22 +17,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AdminComponent } from './components/admin/admin.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
 import { TopbarComponent } from './components/shared/topbar/topbar.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { AddblogpostComponent } from './components/admin/addblogpost/addblogpost.component';
 
 @NgModule({
     declarations: [AppComponent,
-      AdminComponent,
       OverviewComponent,
       LoginComponent,
-      TopbarComponent,
-      SignupComponent,
-      AddblogpostComponent
+      SignupComponent
     ],
     bootstrap: [AppComponent],
     imports: [BrowserModule,
@@ -48,7 +43,8 @@ import { AddblogpostComponent } from './components/admin/addblogpost/addblogpost
       MatInputModule,
       MatSelectModule,
       MatTableModule,
-      MatToolbarModule
+      MatToolbarModule,
+      TopbarComponent
     ],
     providers: [
       provideClientHydration(),
